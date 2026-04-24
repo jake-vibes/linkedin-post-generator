@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type React from 'react';
-import { ThumbsUp, MessageCircle, Repeat2, Send, Globe, ArrowLeft, RefreshCw, Copy, Check, Shuffle, Sparkles, MoreHorizontal } from 'lucide-react';
+import { ThumbsUp, MessageCircle, Repeat2, Send, Globe, ArrowLeft, Copy, Check, Shuffle, Sparkles, MoreHorizontal, Dices } from 'lucide-react';
 
 const C = {
   bg: '#f4f2ee',
@@ -30,19 +30,19 @@ const stories = [
       headline: 'Founder & CEO | 3x Exits | Dreamer | Husband | Father of 4 🙏',
     },
     prompts: [
-      { id: 'num1', label: 'Number of years', hint: '11' },
-      { id: 'startup1', label: 'Your startup name', hint: 'Blorpify' },
-      { id: 'room1', label: 'Room in a house', hint: 'garage' },
-      { id: 'bigco1', label: 'Big tech company', hint: 'Microsoft' },
-      { id: 'food1', label: 'Sad dinner food', hint: 'cold beans' },
-      { id: 'num2', label: 'Number of days', hint: '47' },
-      { id: 'car1', label: 'Type of car', hint: '2008 Civic' },
-      { id: 'verb1', label: 'A verb', hint: 'persevere' },
-      { id: 'plNoun1', label: 'Plural noun', hint: 'feelings' },
-      { id: 'jobTitle1', label: 'A profession', hint: 'dentist' },
-      { id: 'time1', label: 'An hour (1–12)', hint: '3' },
-      { id: 'adj1', label: 'Adjective', hint: 'valid' },
-      { id: 'buzz1', label: 'One-word buzzword', hint: 'grit' },
+      { id: 'num1', label: 'Number of years', examples: ['11', '9', '14', '7', '23', '4'] },
+      { id: 'startup1', label: 'Your startup name', examples: ['Blorpify', 'Snorpflux', 'Datazorb', 'Clouderly', 'Yonkify', 'Zingle'] },
+      { id: 'room1', label: 'Room in a house', examples: ['garage', 'kitchen', 'basement', 'attic', 'mudroom', 'walk-in closet'] },
+      { id: 'bigco1', label: 'Big tech company', examples: ['Microsoft', 'Google', 'Oracle', 'Salesforce', 'Adobe', 'IBM'] },
+      { id: 'food1', label: 'Sad dinner food', examples: ['cold beans', 'instant ramen', 'a raw potato', 'plain toast', 'ketchup on rice', 'dry oatmeal'] },
+      { id: 'num2', label: 'Number of days', examples: ['47', '92', '31', '68', '15', '104'] },
+      { id: 'car1', label: 'Type of car', examples: ['2008 Civic', 'rusted-out minivan', 'leased Corolla', '1997 Ford Taurus', 'Prius with 240k miles', 'company Hertz rental'] },
+      { id: 'verb1', label: 'A verb', examples: ['persevere', 'pivot', 'grind', 'manifest', 'execute', 'compound'] },
+      { id: 'plNoun1', label: 'Plural noun', examples: ['feelings', 'relationships', 'boundaries', 'vibes', 'spreadsheets', 'customer tickets'] },
+      { id: 'jobTitle1', label: 'A profession', examples: ['dentist', 'accountant', 'life coach', 'CrossFit instructor', 'UX designer', 'sommelier'] },
+      { id: 'time1', label: 'An hour (1–12)', examples: ['3', '4', '5', '2', '6', '1'] },
+      { id: 'adj1', label: 'Adjective', examples: ['valid', 'beautiful', 'brave', 'luminous', 'sacred', 'unstoppable'] },
+      { id: 'buzz1', label: 'One-word buzzword', examples: ['grit', 'hustle', 'execution', 'founderlife', 'bootstrapped', 'neverquit'] },
     ],
     template: `I have an announcement. 🙏
 
@@ -90,19 +90,19 @@ Agree?
       headline: 'CEO | Keynote Speaker | Forbes Contributor | Father | Lifelong Learner 🧠',
     },
     prompts: [
-      { id: 'name1', label: 'A first name', hint: 'Dmitri' },
-      { id: 'num1', label: 'Number of years', hint: '23' },
-      { id: 'time1', label: 'Early hour', hint: '5' },
-      { id: 'adj1', label: 'Adjective', hint: 'hardest' },
-      { id: 'verb1', label: 'A verb', hint: 'build' },
-      { id: 'noun1', label: 'A noun', hint: 'house' },
-      { id: 'plNoun1', label: 'Plural noun', hint: 'hammers' },
-      { id: 'num2', label: 'Number', hint: '14' },
-      { id: 'bigco1', label: 'Big tech company', hint: 'Google' },
-      { id: 'num3', label: 'Tip percentage', hint: '4000' },
-      { id: 'adj2', label: 'Adjective', hint: 'reluctant' },
-      { id: 'jobTitle1', label: 'A profession', hint: 'priest' },
-      { id: 'buzz1', label: 'One-word buzzword', hint: 'wisdom' },
+      { id: 'name1', label: 'A first name', examples: ['Dmitri', 'Rafael', 'Bartholomew', 'Tevin', 'Kenji', 'Oluwaseun'] },
+      { id: 'num1', label: 'Number of years', examples: ['23', '17', '31', '9', '42', '14'] },
+      { id: 'time1', label: 'Early hour', examples: ['5', '6', '4', '7', '3', '8'] },
+      { id: 'adj1', label: 'Adjective', examples: ['hardest', 'truest', 'rawest', 'most sacred', 'most profound', 'most underrated'] },
+      { id: 'verb1', label: 'A verb', examples: ['build', 'paint', 'carry', 'climb', 'forge', 'finish'] },
+      { id: 'noun1', label: 'A noun', examples: ['house', 'cathedral', 'bridge', 'legacy', 'sandwich', 'empire'] },
+      { id: 'plNoun1', label: 'Plural noun', examples: ['hammers', 'bricks', 'pencils', 'receipts', 'timesheets', 'dreams'] },
+      { id: 'num2', label: 'Number', examples: ['14', '7', '22', '3', '45', '11'] },
+      { id: 'bigco1', label: 'Big tech company', examples: ['Google', 'Meta', 'Apple', 'Amazon', 'Stripe', 'Goldman'] },
+      { id: 'num3', label: 'Tip percentage', examples: ['4000', '800', '250', '1500', '10000', '500'] },
+      { id: 'adj2', label: 'Adjective', examples: ['reluctant', 'modern-day', 'accidental', 'pocket-sized', 'blue-collar', 'working-class'] },
+      { id: 'jobTitle1', label: 'A profession', examples: ['priest', 'therapist', 'philosopher', 'sensei', 'life coach', 'monk'] },
+      { id: 'buzz1', label: 'One-word buzzword', examples: ['wisdom', 'humanity', 'authenticity', 'presence', 'empathy', 'gratitude'] },
     ],
     template: `I had a conversation with my Uber driver this morning that changed my life.
 
@@ -158,16 +158,16 @@ What's the most profound thing a stranger has ever told you?
       headline: 'Operator | Builder | Hard Truth Teller | #1 Voice in Leadership | She/Her',
     },
     prompts: [
-      { id: 'name1', label: 'A first name', hint: 'Karen' },
-      { id: 'num1', label: 'Number of years', hint: '8' },
-      { id: 'adj1', label: 'Positive adjective', hint: 'stellar' },
-      { id: 'startup1', label: 'Your startup name', hint: 'Zorpify' },
-      { id: 'pastVerb1', label: 'Past-tense verb', hint: 'whispered' },
-      { id: 'noun1', label: 'A mundane object', hint: 'bagel' },
-      { id: 'adj2', label: 'Adjective', hint: 'radical' },
-      { id: 'noun2', label: 'A possession', hint: 'succulent' },
-      { id: 'adj3', label: 'Adjective', hint: 'quiet' },
-      { id: 'adj4', label: 'Adjective', hint: 'respected' },
+      { id: 'name1', label: 'A first name', examples: ['Karen', 'Ashleigh', 'Becky', 'Muffy', 'Tiffany', 'Chardonnay'] },
+      { id: 'num1', label: 'Number of years', examples: ['8', '4', '12', '6', '2', '15'] },
+      { id: 'adj1', label: 'Positive adjective', examples: ['stellar', 'exceptional', 'radiant', 'indispensable', 'award-winning', 'top-performing'] },
+      { id: 'startup1', label: 'Your startup name', examples: ['Zorpify', 'Blargle', 'Synergos', 'Vibrance', 'Lumenly', 'Optimizr'] },
+      { id: 'pastVerb1', label: 'Past-tense verb', examples: ['whispered', 'microwaved', 'flossed', 'laminated', 'reheated', 'juggled'] },
+      { id: 'noun1', label: 'A mundane object', examples: ['bagel', 'tuna sandwich', 'Tupperware', 'pair of clogs', 'stapler', 'keyboard'] },
+      { id: 'adj2', label: 'Adjective', examples: ['radical', 'profound', 'revolutionary', 'silent', 'uncomfortable', 'transformational'] },
+      { id: 'noun2', label: 'A possession', examples: ['succulent', 'ergonomic mouse', 'motivational poster', 'desk plant', 'lumbar pillow', 'diffuser'] },
+      { id: 'adj3', label: 'Adjective', examples: ['quiet', 'teary', 'unmistakable', 'grateful', 'reluctant', 'feral'] },
+      { id: 'adj4', label: 'Adjective', examples: ['respected', 'feared', 'effective', 'correct', 'legendary', 'remembered'] },
     ],
     template: `I fired an employee today.
 
@@ -227,19 +227,19 @@ It's about being {adj4}.
       headline: '5AM Club | Performance Coach | Biohacker | Alpha Mindset | Ex-Goldman 💪',
     },
     prompts: [
-      { id: 'time1', label: 'Early hour (1–5)', hint: '4' },
-      { id: 'plNoun1', label: 'Plural noun (flattering)', hint: 'winners' },
-      { id: 'plNoun2', label: 'Plural noun (insult)', hint: 'losers' },
-      { id: 'num1', label: 'Number of oz', hint: '32' },
-      { id: 'liquid1', label: 'A weird liquid', hint: 'bone broth' },
-      { id: 'room1', label: 'Room in a house', hint: 'kitchen' },
-      { id: 'verbIng1', label: 'Activity ending in -ing', hint: 'screaming' },
-      { id: 'num2', label: 'Number of minutes', hint: '90' },
-      { id: 'num3', label: 'Number', hint: '17' },
-      { id: 'plNoun3', label: 'Plural food item', hint: 'egg yolks' },
-      { id: 'fam1', label: 'Family member', hint: 'wife' },
-      { id: 'adj1', label: 'Insulting adjective', hint: 'average' },
-      { id: 'buzz1', label: 'Buzzword', hint: 'alpha' },
+      { id: 'time1', label: 'Early hour (1–5)', examples: ['4', '3', '5', '2', '4', '1'] },
+      { id: 'plNoun1', label: 'Plural noun (flattering)', examples: ['winners', 'champions', 'alphas', 'operators', 'executors', 'killers'] },
+      { id: 'plNoun2', label: 'Plural noun (insult)', examples: ['losers', 'NPCs', 'betas', 'mortals', 'slackers', 'quitters'] },
+      { id: 'num1', label: 'Number of oz', examples: ['32', '64', '16', '48', '24', '128'] },
+      { id: 'liquid1', label: 'A weird liquid', examples: ['bone broth', 'raw goat milk', 'sea salt water', 'ionized rainwater', 'bee propolis', 'liver juice'] },
+      { id: 'room1', label: 'Room in a house', examples: ['kitchen', 'garage', 'basement', 'backyard shed', 'guest bathroom', 'walk-in closet'] },
+      { id: 'verbIng1', label: 'Activity ending in -ing', examples: ['screaming', 'journaling', 'cold-plunging', 'shadowboxing', 'affirming', 'visualizing'] },
+      { id: 'num2', label: 'Number of minutes', examples: ['90', '45', '120', '60', '30', '180'] },
+      { id: 'num3', label: 'Number', examples: ['17', '12', '9', '24', '6', '33'] },
+      { id: 'plNoun3', label: 'Plural food item', examples: ['egg yolks', 'raw oysters', 'almonds', 'sardines', 'blueberries', 'liver cubes'] },
+      { id: 'fam1', label: 'Family member', examples: ['wife', 'husband', 'kids', 'newborn', 'au pair', 'dog'] },
+      { id: 'adj1', label: 'Insulting adjective', examples: ['average', 'mediocre', 'soft', 'comfortable', 'broke', 'ordinary'] },
+      { id: 'buzz1', label: 'Buzzword', examples: ['alpha', 'discipline', 'dominance', 'optimization', 'biohack', 'sigma'] },
     ],
     template: `People ask me why I wake up at {time1} AM every single day.
 
@@ -285,18 +285,18 @@ Save this post. ↓
       headline: 'Founder & CEO | Forbes 30 Under 30 (2008) | Keynote Speaker | Author of "Rise"',
     },
     prompts: [
-      { id: 'bigco1', label: 'Big tech company', hint: 'Oracle' },
-      { id: 'adj1', label: 'Adjective', hint: 'qualified' },
-      { id: 'field1', label: 'Academic field', hint: 'puppetry' },
-      { id: 'num1', label: 'Number of years', hint: '25' },
-      { id: 'verb1', label: 'A verb', hint: 'weep' },
-      { id: 'num2', label: 'Big number', hint: '847' },
-      { id: 'name1', label: 'A name', hint: 'Geoffrey' },
-      { id: 'word1', label: 'A single word statement', hint: 'Remember?' },
-      { id: 'plNoun1', label: 'Plural noun', hint: 'croissants' },
-      { id: 'adj3', label: 'Adjective', hint: 'worthy' },
-      { id: 'noun1', label: 'A noun', hint: 'gift' },
-      { id: 'buzz1', label: 'Buzzword', hint: 'resilience' },
+      { id: 'bigco1', label: 'Big tech company', examples: ['Oracle', 'IBM', 'Deloitte', 'Goldman', 'McKinsey', 'Boeing'] },
+      { id: 'adj1', label: 'Adjective', examples: ['qualified', 'experienced', 'polished', 'corporate', 'credentialed', 'serious'] },
+      { id: 'field1', label: 'Academic field', examples: ['puppetry', 'marine biology', 'medieval literature', 'improv comedy', 'basket weaving', 'beekeeping'] },
+      { id: 'num1', label: 'Number of years', examples: ['25', '19', '33', '12', '47', '8'] },
+      { id: 'verb1', label: 'A verb', examples: ['weep', 'smile', 'smirk', 'flex', 'meditate', 'scream'] },
+      { id: 'num2', label: 'Big number', examples: ['847', '1200', '230', '4100', '62', '9000'] },
+      { id: 'name1', label: 'A name', examples: ['Geoffrey', 'Gerald', 'Cornelius', 'Reginald', 'Blake', 'Bradford'] },
+      { id: 'word1', label: 'A single word statement', examples: ['Remember?', 'Oops.', 'Anyway.', 'Cute.', 'Namaste.', 'Well?'] },
+      { id: 'plNoun1', label: 'Plural noun', examples: ['croissants', 'LaCroix', 'kombucha bottles', 'matcha lattes', 'overnight oats', 'poke bowls'] },
+      { id: 'adj3', label: 'Adjective', examples: ['worthy', 'enough', 'ready', 'destined', 'chosen', 'main-character'] },
+      { id: 'noun1', label: 'A noun', examples: ['gift', 'blessing', 'lesson', 'redirection', 'plot twist', 'runway'] },
+      { id: 'buzz1', label: 'Buzzword', examples: ['resilience', 'fullcircle', 'poetic', 'cosmic', 'vindication', 'karma'] },
     ],
     template: `25 years ago, I was rejected from {bigco1}.
 
@@ -347,6 +347,7 @@ type Answers = Record<string, string>;
 type Screen = 'picker' | 'form' | 'reveal';
 
 const rand = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+const pickOne = <T,>(arr: readonly T[]): T => arr[Math.floor(Math.random() * arr.length)];
 const genEngagement = () => ({
   likes: rand(847, 14800),
   comments: rand(120, 890),
@@ -354,7 +355,27 @@ const genEngagement = () => ({
   hours: rand(1, 8),
 });
 
+const randomAnswersFor = (s: Story): Answers => {
+  const fill: Answers = {};
+  s.prompts.forEach(p => { fill[p.id] = pickOne(p.examples); });
+  return fill;
+};
+
+function useIsMobile() {
+  const [m, setM] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches
+  );
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 640px)');
+    const fn = (e: MediaQueryListEvent) => setM(e.matches);
+    mq.addEventListener('change', fn);
+    return () => mq.removeEventListener('change', fn);
+  }, []);
+  return m;
+}
+
 export default function App() {
+  const isMobile = useIsMobile();
   const [screen, setScreen] = useState<Screen>('picker');
   const [story, setStory] = useState<Story | null>(null);
   const [answers, setAnswers] = useState<Answers>({});
@@ -382,16 +403,15 @@ export default function App() {
     setScreen('reveal');
   };
 
-  const again = () => {
-    setAnswers({});
-    setScreen('form');
-  };
-
   const fillExamples = () => {
     if (!story) return;
-    const fill: Answers = {};
-    story.prompts.forEach(p => { fill[p.id] = p.hint; });
-    setAnswers(fill);
+    setAnswers(randomAnswersFor(story));
+  };
+
+  const reshuffle = () => {
+    if (!story) return;
+    setAnswers(randomAnswersFor(story));
+    setEngagement(genEngagement());
   };
 
   const plainPost = () => {
@@ -428,12 +448,12 @@ export default function App() {
       backgroundColor: C.bg,
       color: C.text,
       fontFamily: UI_FONT,
-      padding: '32px 16px',
+      padding: isMobile ? '20px 12px' : '32px 16px',
     }}>
       <div style={{ maxWidth: 680, margin: '0 auto' }}>
 
         {/* Header */}
-        <header style={{ textAlign: 'center', marginBottom: 28 }}>
+        <header style={{ textAlign: 'center', marginBottom: isMobile ? 20 : 28 }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -451,7 +471,7 @@ export default function App() {
             <Sparkles size={12} /> Thought Leader Pro™
           </div>
           <h1 style={{
-            fontSize: 38,
+            fontSize: isMobile ? 28 : 38,
             fontWeight: 800,
             margin: 0,
             letterSpacing: '-0.02em',
@@ -461,7 +481,7 @@ export default function App() {
             The LinkedIn Post Generator
           </h1>
           <p style={{
-            fontSize: 15,
+            fontSize: isMobile ? 14 : 15,
             color: C.muted,
             marginTop: 10,
             marginBottom: 0,
@@ -553,9 +573,9 @@ export default function App() {
               background: C.cardBg,
               border: `1px solid ${C.border}`,
               borderRadius: 8,
-              padding: '24px 28px',
+              padding: isMobile ? '20px 18px' : '24px 28px',
             }}>
-              <h2 style={{ fontSize: 22, fontWeight: 700, margin: 0, marginBottom: 4 }}>
+              <h2 style={{ fontSize: isMobile ? 20 : 22, fontWeight: 700, margin: 0, marginBottom: 4 }}>
                 {story.emoji} {story.title}
               </h2>
               <div style={{ fontSize: 13, color: C.muted, marginBottom: 20 }}>
@@ -581,7 +601,7 @@ export default function App() {
                 }} />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '14px 16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(200px, 1fr))', gap: '14px 16px' }}>
                 {story.prompts.map((p, i) => (
                   <div key={p.id}>
                     <label style={{
@@ -597,7 +617,7 @@ export default function App() {
                       type="text"
                       value={answers[p.id] || ''}
                       onChange={e => setAnswers(prev => ({ ...prev, [p.id]: e.target.value }))}
-                      placeholder={`e.g. ${p.hint}`}
+                      placeholder={`e.g. ${p.examples[0]}`}
                       style={{
                         width: '100%',
                         padding: '8px 10px',
@@ -763,62 +783,66 @@ export default function App() {
             </div>
 
             {/* Actions below the post */}
-            <div style={{ display: 'flex', gap: 10, marginTop: 16, flexWrap: 'wrap' }}>
-              <button
-                onClick={again}
-                style={{
-                  flex: '1 1 auto',
-                  padding: '10px 18px',
-                  background: C.linkedin,
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: 24,
-                  fontFamily: UI_FONT,
-                  fontSize: 14,
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                }}
-                onMouseEnter={e => e.currentTarget.style.background = C.linkedinDark}
-                onMouseLeave={e => e.currentTarget.style.background = C.linkedin}
-              >
-                <RefreshCw size={14} /> New words, same post
-              </button>
-              <button
-                onClick={back}
-                style={{
-                  flex: '1 1 auto',
-                  padding: '10px 18px',
-                  background: 'transparent',
-                  color: C.linkedin,
-                  border: `1.5px solid ${C.linkedin}`,
-                  borderRadius: 24,
-                  fontFamily: UI_FONT,
-                  fontSize: 14,
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                }}
-              >
-                <Sparkles size={14} /> New template
-              </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
               <button
                 onClick={copyPost}
                 style={{
-                  padding: '10px 16px',
-                  background: 'transparent',
-                  color: C.text,
-                  border: `1.5px solid ${C.border}`,
-                  borderRadius: 24,
+                  width: '100%',
+                  padding: '14px 20px',
+                  background: copied ? '#057642' : C.linkedin,
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: 28,
                   fontFamily: UI_FONT,
-                  fontSize: 13,
+                  fontSize: 16,
                   fontWeight: 700,
                   cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', gap: 6,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  transition: 'background 0.15s',
                 }}
+                onMouseEnter={e => { if (!copied) e.currentTarget.style.background = C.linkedinDark; }}
+                onMouseLeave={e => { if (!copied) e.currentTarget.style.background = C.linkedin; }}
               >
-                {copied ? <><Check size={14} /> Copied</> : <><Copy size={14} /> Copy</>}
+                {copied ? <><Check size={18} /> Copied to clipboard</> : <><Copy size={18} /> Copy post</>}
               </button>
+              <div style={{ display: 'flex', gap: 10, flexDirection: isMobile ? 'column' : 'row' }}>
+                <button
+                  onClick={reshuffle}
+                  style={{
+                    flex: '1 1 auto',
+                    padding: '10px 18px',
+                    background: 'transparent',
+                    color: C.linkedin,
+                    border: `1.5px solid ${C.linkedin}`,
+                    borderRadius: 24,
+                    fontFamily: UI_FONT,
+                    fontSize: 14,
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  }}
+                >
+                  <Dices size={16} /> Reshuffle words
+                </button>
+                <button
+                  onClick={back}
+                  style={{
+                    flex: '1 1 auto',
+                    padding: '10px 18px',
+                    background: 'transparent',
+                    color: C.muted,
+                    border: `1.5px solid ${C.border}`,
+                    borderRadius: 24,
+                    fontFamily: UI_FONT,
+                    fontSize: 14,
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  }}
+                >
+                  <Sparkles size={14} /> New template
+                </button>
+              </div>
             </div>
           </div>
         )}
